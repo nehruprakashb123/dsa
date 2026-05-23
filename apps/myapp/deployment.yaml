@@ -17,6 +17,6 @@ spec:
       containers:
       - name: myapp
         image: hashicorp/http-echo
-        args: ["-text=hello-from-gitops-v1"]
+        args: ["-text=hello-from-gitops-v2"]
         ports:
         - containerPort: 5678
