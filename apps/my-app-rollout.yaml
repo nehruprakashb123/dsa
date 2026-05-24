@@ -1,0 +1,29 @@
+# apps/myapp-helm.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-helm
+  namespace: argocd
+spec:
+  project: myproject                    # we'll create this in Topic 4
+  source:
+    repoURL: https://github.com/nehruprakashb123/dsa.git
+    targetRevision: argocd
+    path: helm-apps/myapp
+    helm:
+      valueFiles:
+      - values.yaml                     # base values
+      parameters:                       # override specific values (like --helm-set)
+      - name: message
+        value: "hello-from-argocd-helm"
+      - name: replicaCount
+        value: "2"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

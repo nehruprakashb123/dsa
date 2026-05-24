@@ -1,0 +1,6 @@
+# helm-apps/myapp/Chart.yaml
+apiVersion: v2
+name: myapp
+description: Demo app for GitOps lab
+version: 0.1.0
+appVersion: "1.0"

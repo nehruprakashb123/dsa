@@ -1,0 +1,3 @@
+# helm-apps/myapp/values-prod.yaml
+replicaCount: 5
+message: "hello-from-prod"

@@ -1,0 +1,14 @@
+replicaCount: 3
+image:
+  repository: hashicorp/http-echo
+  tag: latest
+message: "hello-from-helm-v1"
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 5678
+
+canary:
+  enabled: false
+  weight: 20
