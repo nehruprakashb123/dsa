@@ -1,0 +1,6 @@
+# dsa/apps/helm-apps/myapp/Chart.yaml
+apiVersion: v2
+name: myapp
+description: GitOps canary demo
+version: 0.1.0
+appVersion: "1.0"

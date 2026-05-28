@@ -1,0 +1,45 @@
+# dsa/projects/myproject.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: myproject
+  namespace: argocd
+spec:
+  description: "Platform team project"
+  sourceRepos:
+  - https://github.com/nehruprakashb123/dsa.git
+
+  destinations:
+  - namespace: default
+    server: https://kubernetes.default.svc
+  - namespace: staging
+    server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist: []
+
+  namespaceResourceWhitelist:
+  - group: "apps"
+    kind: Deployment
+  - group: "argoproj.io"
+    kind: Rollout
+  - group: "argoproj.io"
+    kind: AnalysisTemplate
+  - group: "argoproj.io"
+    kind: AnalysisRun
+  - group: ""
+    kind: Service
+  - group: ""
+    kind: ConfigMap
+  - group: "networking.k8s.io"
+    kind: Ingress
+
+  roles:
+  - name: developer
+    policies:
+    - p, proj:myproject:developer, applications, get, myproject/*, allow
+    - p, proj:myproject:developer, applications, sync, myproject/*, allow
+    - p, proj:myproject:developer, applications, delete, myproject/*, deny
+
+  - name: admin
+    policies:
+    - p, proj:myproject:admin, applications, *, myproject/*, allow

@@ -1,0 +1,14 @@
+# dsa/apps/helm-apps/myapp/values.yaml
+replicaCount: 3
+image:
+  repository: hashicorp/http-echo
+  tag: latest
+
+message: "hello-v1"
+
+service:
+  port: 80
+  targetPort: 5678
+
+ingress:
+  host: myapp.local

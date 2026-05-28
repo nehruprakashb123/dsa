@@ -1,0 +1,37 @@
+# dsa/apps/helm-apps/myapp/templates/rollout.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: myapp
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        args: ["-text={{ .Values.message }}"]
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+  strategy:
+    canary:
+      canaryService: {{ .Release.Name }}-canary-svc
+      stableService: {{ .Release.Name }}-stable-svc
+      trafficRouting:
+        nginx:
+          stableIngress: {{ .Release.Name }}-ingress
+      steps:
+      - setWeight: 10
+      - pause: {duration: 30s}
+      - setWeight: 30
+      - pause: {duration: 30s}
+      - setWeight: 60
+      - pause: {duration: 30s}
+      - setWeight: 100
